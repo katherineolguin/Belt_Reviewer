@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Editar calificacion</title>
+</head>
+
+<body>
+
+    <header class="d-flex justify-content-between align-items-center text-light p-2 bg-dark mb-3">
+        <h1> {{user.first_name}}</h1>
+        <a href="/dashboard" class="btn btn-success">Home</a>
+        <a href="/logout" class="btn btn-danger">Cerrar Sesión</a>
+    </header>
+
+    <h1>Calificaciones</h1>
+
+
+    <div class="col-4 mx-auto bg-primary px-4  p-4 ">
+
+        <!-- Mensajes de error -->
+
+        {% with messages = get_flashed_messages(category_filter=['grades']) %}
+        {% if messages %}
+        <div class="alert alert-danger">
+            {% for message in messages %}
+            <p>{{message}}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <form action="/update/grades" method="POST">
+            <h3>Datos</h3>
+
+            <div class="form-group mr-2">
+                <label for="alunmo">Alumno: </label>
+                <input type="text" name="alunmo" id="alunmo" class="form-control" value="{{grade.alunmo}}">
+            </div>
+
+            <div class="form-group">
+                <label for="stack">Stack: </label>
+                <select name="stack" id="stack" class="form-control form-select">
+                    <option selected></option>
+                    <option {% if grade.stack == "python" %} selected {% endif %}>python</option>
+                    <option {% if grade.stack == "jsva" %} selected {% endif %}>java</option>
+                    <option {% if grade.stack == "mern" %} selected {% endif %}>mern</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="fecha">fecha: </label>
+                <input type="date" name="fecha" id="fecha" class="form-control" value="{{grade.fecha}}">
+            </div>
+
+            <div class="form-group">
+                <label for="calificacion">Calificacion: </label>
+                <input type="number" name="calificacion" id="calificacion" class="form-control" max="1" min="10"
+                    value="{{grade.calificacion}}">
+            </div>
+
+
+            <div class="form-group">
+                <label for="Cinturon">Cinturon: </label>
+                <select type="number" name="Cinturon" id="Cinturon" class="form-control form-select">
+                    <option selected></option>
+                    <option {% if grade.cinturon == "Black" %} selected {% endif %}>Black</option>
+                    <option {% if grade.cinturon == "Red" %} selected {% endif %}>Red</option>
+                    <option {% if grade.cinturon == "Orange" %} selected {% endif %}>Orange</option>
+                    <option {% if grade.cinturon == "Sin cinturon" %} selected {% endif %}>Sin cinturon</option>
+                </select>
+            </div>
+            <input type="hidden" name="user_id" value="{{session['user_id']}}">
+            <input type="hidden" name="id" value="{{grade.id}}">  <!--para obtener el id de la calificacion en update-->
+
+
+            <input type="submit" class="btn btn-success" value="Guardar">
+
+
+        </form>
+
+    </div>
+
+
+</body>
+
+</html>
